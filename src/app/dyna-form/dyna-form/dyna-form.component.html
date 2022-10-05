@@ -1,0 +1,30 @@
+<form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+  <ng-container *ngFor="let config of jsonformData">
+    <mat-form-field appearance="outline" floatLabel="never" style="display: flex" *ngIf="config.type === 'text'"
+      [class.cdk-visually-hidden]="config.hidden === 'true'">
+      <mat-label class="field-label">{{ config.label }}</mat-label>
+      <input matInput [class]="config.field" class="field-value" [type]="config.type" [attr.placeholder]="config.label"
+        [formControlName]="config.field" [required]="config.mandatory" [hidden]="config.hidden === 'true'" />
+      <mat-error *ngIf="formGroup.controls[config.field].errors !== null">
+        <div *ngIf="formGroup.controls[config.field].errors?.required === true" class="">Field is required</div>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Checkbox -->
+    <ng-container *ngIf="config.type === 'check'" style="display: flex">
+      <div [class.cdk-visually-hidden]="config.hidden === 'true'">
+        <input type="checkbox" [class]="config.field" [formControlName]="config.field" [required]="config.mandatory"
+          [hidden]="config.hidden === 'true'"> {{ config.label }}
+        <mat-error *ngIf="formGroup.controls[config.field].errors !== null">
+          <div *ngIf="formGroup.controls[config.field].errors?.required === true" class="" checked="true">Field is
+            required</div>
+        </mat-error>
+      </div>
+    </ng-container>
+
+  </ng-container>
+  <div class="row">
+    <button type="submit">Submit</button>
+  </div>
+
+</form>
